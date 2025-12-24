@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Felicitare de Crăciun</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    max-width: 90%;
+    animation: fadeIn 1s ease;
+}
+
+h1 {
+    font-size: 2.3em;
+    animation: glow 2s infinite alternate;
+}
+
+p {
+    font-size: 1.4em;
+    margin-top: 20px;
+    min-height: 40px;
+}
+
+button {
+    margin-top: 30px;
+    padding: 15px 32px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 30px;
+    background: #ff4b2b;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+
+button:hover {
+    transform: scale(1.07);
+    background: #ff416c;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #fff; }
+    to { text-shadow: 0 0 25px #ffdf00; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.snowflake, .heart {
+    position: fixed;
+    top: -10px;
+    animation: fall linear infinite;
+}
+
+.snowflake {
+    color: white;
+}
+
+.heart {
+    color: #ff5f7e;
+    font-size: 18px;
+}
+
+@keyframes fall {
+    to { transform: translateY(110vh); }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGINA 1 -->
+<div class="container" id="page1">
+    <h1>🎄 Crăciun Fericit, Raluca! 🎄</h1>
+    <p>Am pregătit ceva special pentru tine</p>
+    <button onclick="goToPage(2)">Continuă</button>
+</div>
+
+<!-- PAGINA 2 -->
+<div class="container" id="page2" style="display:none;">
+    <h1>🎁 Cel mai frumos cadou de Crăciun</h1>
+    <p id="text2"></p>
+    <button onclick="goToPage(3)">Încă puțin</button>
+</div>
+
+<!-- PAGINA 3 -->
+<div class="container" id="page3" style="display:none;">
+    <h1>🍀</h1>
+    <p id="text3"></p>
+    <button onclick="goToPage(4)">Final</button>
+</div>
+
+<!-- PAGINA 4 -->
+<div class="container" id="page4" style="display:none;">
+    <h1>❤️ Crăciun fericit, Raluca ❤️</h1>
+    <p>Cu drag, Cătălin</p>
+    <button onclick="reply()">Răspunde-mi ❤️</button>
+</div>
+
+<script>
+let musicStarted = false;
+
+// text animat
+function typeText(id, text, speed = 45) {
+    let i = 0;
+    const el = document.getElementById(id);
+    el.innerHTML = "";
+    const interval = setInterval(() => {
+        if (i < text.length) {
+            el.innerHTML += text.charAt(i);
+            i++;
+        } else clearInterval(interval);
+    }, speed);
+}
+
+// navigare între pagini
+function goToPage(page) {
+    document.querySelectorAll(".container").forEach(c => c.style.display = "none");
+    document.getElementById("page" + page).style.display = "block";
+
+    if (!musicStarted) {
+        document.getElementById("music").play();
+        musicStarted = true;
+    }
+
+    if (page === 2) typeText("text2", "ar fi să îmi apari sub brad ✨");
+    if (page === 3) typeText("text3", "Sunt norocos că te-am găsit, Raluca");
+    if (page === 4) hearts();
+}
+
+// deschidere WhatsApp direct
+function reply() {
+    window.location.href = "https://wa.me/40746819959?text=Crăciun%20fericit%20Cătălin%20❤️";
+}
+
+// zăpadă
+for (let i = 0; i < 30; i++) {
+    let snow = document.createElement("div");
+    snow.className = "snowflake";
+    snow.innerHTML = "❄";
+    snow.style.left = Math.random() * 100 + "vw";
+    snow.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    snow.style.fontSize = (Math.random() * 10 + 10) + "px";
+    document.body.appendChild(snow);
+}
+
+// inimioare animate la final
+function hearts() {
+    for (let i = 0; i < 20; i++) {
+        let h = document.createElement("div");
+        h.className = "heart";
+        h.innerHTML = "❤️";
+        h.style.left = Math.random() * 100 + "vw";
+        h.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(h);
+    }
+}
+</script>
+
+</body>
+</html>
